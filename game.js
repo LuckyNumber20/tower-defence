@@ -35,12 +35,26 @@ const tower = new THREE.Mesh(geometryCube, materialCube);
 tower.position.y = 2; // Lift it up so it sits on the floor
 scene.add(tower);
 
-// 7. The Animation Loop (Draws the scene every frame)
+// --- ENEMY SETUP ---
+const enemyGeometry = new THREE.BoxGeometry(1, 1, 1);
+const enemyMaterial = new THREE.MeshLambertMaterial({ color: 0xe74c3c }); // Red
+const enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
+
+// Start the enemy at the far corner of the map
+enemy.position.set(14, 0.5, 14); 
+scene.add(enemy);
+
+// 7. The Animation Loop
 function animate() {
     requestAnimationFrame(animate);
     
-    // Let's add a slow spin to the tower just to prove it's 3D!
+    // Spin the tower
     tower.rotation.y += 0.01;
+    
+    // --- ENEMY MOVEMENT LOGIC ---
+    // Make the enemy walk toward the center (0,0)
+    if (enemy.position.x > 0) enemy.position.x -= 0.03;
+    if (enemy.position.z > 0) enemy.position.z -= 0.03;
     
     renderer.render(scene, camera);
 }
